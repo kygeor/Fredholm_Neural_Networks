@@ -119,7 +119,7 @@ assuming $z_i = x$.
 
 *Figure 1: Architecture of the Fredholm Neural Network (FNN). Outputs can be considered across the entire (or a subset of the) input grid, or for an arbitrary output vector as shown in the second graph, by applying the integral mapping one last time.*
 
-Examples in Python can be seen [`here`](Scripts_and_Examples_Py/Fredholm_Integral_Equation_Examples.ipynb) and in matlab [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward_ex1.m) and [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward_ex2.m).
+Examples in Python can be seen [`here`](Scripts_and_Examples_Py/Fredholm_Integral_Equation_Examples.ipynb) and in MATLAB [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward_ex1.m) and [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward_ex2.m).
 
 The corresponding classes are [`here`](Classes_Py/fredholm_nn_models.py) and [`here`](Classes/FredholmNeuralNetwork.m).
 
@@ -191,7 +191,7 @@ Here, $\hat{f}(x;\hat{K}_{\theta})$ denotes the output of the Fredholm NN and $R
 
 *Figure 3: Algorithm to solve the inverse problem using the Fredholm NN framework.*
 
-The implementation is given for a specific example in MATLAB, using the Levenberg-Marquardt training algorithm [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_inverse.m).
+The implementation is given for a specific example in MATLAB, using the Levenberg-Marquardt training algorithm [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_inverse_ex1.m) and [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_inverse_ex2.m).
 
 # Fredholm Neural Networks for the Laplace PDE
 
