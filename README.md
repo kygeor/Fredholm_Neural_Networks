@@ -119,7 +119,7 @@ assuming $z_i = x$.
 
 *Figure 1: Architecture of the Fredholm Neural Network (FNN). Outputs can be considered across the entire (or a subset of the) input grid, or for an arbitrary output vector as shown in the second graph, by applying the integral mapping one last time.*
 
-Examples in Python can be seen [`here`](Scripts_and_Examples_Py/Fredholm_Integral_Equation_Examples.ipynb) and in matlab [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward.m).
+Examples in Python can be seen [`here`](Scripts_and_Examples_Py/Fredholm_Integral_Equation_Examples.ipynb) and in matlab [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward_ex1.m) and [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_forward_ex2.m).
 
 The corresponding classes are [`here`](Classes_Py/fredholm_nn_models.py) and [`here`](Classes/FredholmNeuralNetwork.m).
 
@@ -219,12 +219,12 @@ $$\beta({x}^{\star}) = 2 \Big(f(x^{\star}) - \int_{\Omega} \Phi(x^*,y) \psi(y) d
 *Figure 4: PFNN construction. The first component is a Fredholm Neural Network and the second encapsulates the representation of the double layer potential, decomposed into a the final hidden layer.*
 
 
-### Poisson PDE 
+### Laplace PDE 
 The Poisson PDE 
 
 $$
 \begin{cases}
- \Delta u(x)  = \psi(x), \quad x \in \Omega \\ 
+ \Delta u(x)  = 0, \quad x \in \Omega \\ 
 u(x) = f(x), \quad x \in \partial \Omega.   
 \end{cases}
 $$
@@ -243,7 +243,7 @@ where we define the simple operator $\mathcal{D} \Phi({x}, {y}):= \Big(\frac{\pa
 
 $$ b_{M+1} = \left(\begin{array}{ccc}
 -\beta(x^{\star}), \dots, - \beta(x^{\star})
-\end{array}\right)^{\top}, b_O= \frac{1}{2} \beta(x^{\star}) + \int_{\partial \Omega} \beta(y) \frac{\partial \Phi(x^*, y)}{\partial n_y} d\sigma_y + \int_{\Omega} \Phi(x,y) \psi(y) dy,
+\end{array}\right)^{\top}, b_O= \frac{1}{2} \beta(x^{\star}) + \int_{\partial \Omega} \beta(y) \frac{\partial \Phi(x^*, y)}{\partial n_y} d\sigma_y,
 $$
 
 where $x^*:= (1, \phi) \in \partial \Omega$ is the unique point on the boundary corresponding to $x:= (r, \phi) \in \Omega$.  
@@ -251,6 +251,8 @@ where $x^*:= (1, \phi) \in \partial \Omega$ is the unique point on the boundary 
 We apply this approach to the Laplace equation [`here`](Scripts_and_Examples_Py/PFNN_Poisson_PDE.ipynb) and in MATLAB [`here`](Scripts_and_Examples/PFNN_Poisson_PDE_sparse_prediction_for_inverse.m).
 
 The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py) and MATLAB [`here`](Classes/PotentialFredholmNeuralNetwork_Poisson.m).
+
+
 
 
 
