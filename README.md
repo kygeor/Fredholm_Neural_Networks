@@ -1,10 +1,9 @@
 # Fredholm Neural Networks
-This repository contains the codes in Python and MATLAB that were developed and used for the **Fredholm Neural Network (FNN)** and **Potential Fredholm Neural Network (PFNN)** framework.
+This repository contains the codes in Python and MATLAB that were developed and used for the **Fredholm Neural Network (FNN)** framework.
 
-The theoretical framework, used for both the forward and inverse problems, is briefly described below. For the full details see the papers:
+The theoretical framework, used for both the forward and inverse problems, is briefly described below. For the full details see the paper:
 
-1. Fredholm Neural Networks - https://epubs.siam.org/doi/full/10.1137/24M1686991?casa_token=LUOO2mbMhAcAAAAA%3AQUFO1UaeNBfHdXzGBU2c_oZFy2vwIea8jtON46KL_TC_wkjEke7VEW-lLoQ9bY0Gw9BZcFy1
-2. Fredholm Neural Networks for forward and inverse problems in elliptic PDEs - https://arxiv.org/abs/2507.06038
+Fredholm Neural Networks - https://epubs.siam.org/doi/full/10.1137/24M1686991?casa_token=LUOO2mbMhAcAAAAA%3AQUFO1UaeNBfHdXzGBU2c_oZFy2vwIea8jtON46KL_TC_wkjEke7VEW-lLoQ9bY0Gw9BZcFy1
 
 To reference this code please cite:
 
@@ -125,7 +124,6 @@ Examples in Python can be seen [`here`](Scripts_and_Examples_Py/Fredholm_Integra
 The corresponding classes are [`here`](Classes_Py/fredholm_nn_models.py) and [`here`](Classes/FredholmNeuralNetwork.m).
 
 
-
 ## Application to non-linear FIEs 
 
 We can create an iterative process that "linearizes" the integral equation and allows us to solve a linear FIE at each step. To this end, consider the non-linear, non-expansive integral operator:
@@ -205,7 +203,7 @@ Here, $\hat{f}(x;\hat{K}_{\theta})$ denotes the output of the Fredholm NN.
 
 The implementation is given for a specific example in MATLAB, using the Levenberg-Marquardt training algorithm [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_inverse.m).
 
-# Potential Fredholm Neural Networks for elliptic PDEs
+# Fredholm Neural Networks for elliptic PDEs
 
 Here we briefly provide the background in Potential Theory and how it is applied in the context of FNNs, resulting in the Potential Frendholm Neural Network (PFNN), used to solve elliptic PDEs.
 
@@ -231,7 +229,7 @@ $$\beta({x}^{\star}) = 2 \Big(f(x^{\star}) - \int_{\Omega} \Phi(x^*,y) \psi(y) d
 *Figure 4: PFNN construction. The first component is a Fredholm Neural Network and the second encapsulates the representation of the double layer potential, decomposed into a the final hidden layer.*
 
 
-### Poisson PDE - PFNN Construction 
+### Poisson PDE 
 The Poisson PDE 
 
 $$
@@ -260,98 +258,11 @@ $$
 
 where $x^*:= (1, \phi) \in \partial \Omega$ is the unique point on the boundary corresponding to $x:= (r, \phi) \in \Omega$.  
 
-Examples in Python can be seen [`here`](Scripts_and_Examples_Py/PFNN_Poisson_PDE.ipynb) and in MATLAB [`here`](Scripts_and_Examples/PFNN_Poisson_PDE_sparse_prediction_for_inverse.m).
+We apply this approach to the Laplace equation [`here`](Scripts_and_Examples_Py/PFNN_Poisson_PDE.ipynb) and in MATLAB [`here`](Scripts_and_Examples/PFNN_Poisson_PDE_sparse_prediction_for_inverse.m).
 
 The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py) and MATLAB [`here`](Classes/PotentialFredholmNeuralNetwork_Poisson.m).
 
 
-### Helmholtz PDE - PFNN Construction 
-The Helmholtz PDE:
-
-$$
-\begin{cases}
- \Delta u(x) - \lambda u(x) = \psi(x), \quad x \in \Omega \\ 
-u(x) = f(x), \quad x \in \partial \Omega.   
-\end{cases}
-$$
-
-can be solved using a Fredholm NN with $M+1$ hidden layers, where the first M layers solve the BIE on a discretized grid of the boundary, $y_1, \dots, y_N$. The final hidden and output layers are constructed according to the Fredholm NN representation of the double layer potential for PDE \eqref{helmholtz-pde}, with weights $W_{M+1} \in \mathbb{R}^{N \times N}, W_O \in \mathbb{R}^N$ given by:
-
-$$
-W_{M+1}= I_{N \times N},
-\,\,\,\,\
-W_{O}= \left(\begin{array}{cccc}
-\mathcal{D} \Phi(x, y_1)\Delta \sigma_y, & \mathcal{D} \Phi(x, y_2)\Delta\sigma_y, & \dots, & \mathcal{D} \Phi(x, y_N) \Delta \sigma_y
-\end{array}\right)^{\top},
-$$
-
-where, $\mathcal{D} \Phi(x, y_i)$ as defined in Proposition \ref{prop-poisson}. The corresponding biases $b_{M+1} \in \mathbb{R}^{N}$ and $b_O \in \mathbb{R}$ are given by:
-
-$$
-b_{M+1} = \left(\begin{array}{ccc}
--\beta(x^{\star}), \dots, - \beta(x^{\star})
-\end{array}\right)^{\top}, b_O= \Big(\frac{1}{2} + \int_{\Omega} \lambda \delta \Phi(x, y) dy \Big) \beta(x^{\star}) + \int_{\partial \Omega} \beta(y) \frac{\partial \Phi(x^*, y)}{\partial n_y} d\sigma_y + \int_{\mathcal{D}} \Phi(x,y) f(y) dy,
-$$
-
-where we define $\delta\Phi(x,y) := \Phi(x,y) - \Phi(x^*,y)$.
-
-For this case the fundamental solution is given by the modified Bessel function of the second kind $\Phi(x,y) = -\frac{1}{2 \pi} K_0(\lambda | x-y|).$
-
-Examples in Python can be seen [`here`](Scripts_and_Examples_Py/PFNN_Helmholtz_PDE.ipynb) and in MATLAB [`here`](Scripts_and_Examples/PFNN_Helmholtz_PDE.m).
-
-The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py) and MATLAB [`here`](Classes/PotentialFredholmNeuralNetwork_Helmholtz.m) and [`here`](Classes/PotentialFredholmNeuralNetwork_Helmholtz_dense.m).
-
-### Semi-linear elliptic PDE - Recurrent PFNN Construction 
-Consider the semi-linear PDE of the form: 
-
-$$
-\begin{cases}
-\Delta u(x) = F(x, u(x)), \quad x \in \Omega \\
-u(x) = f(x), \quad x \in \partial \Omega.
-\end{cases} 
-$$
-
-For their solution, we employ a fixed point scheme which linearizes the PDE at each step of the iteration. In line with this approach, we consider the monotone iteration scheme , as below: 
-
-1. Choose a $\lambda > 0$ "sufficiently large" (see below)
-2. Take an initial guess $u_0(x)$
-3. Solve, for $n = 0, 1, 2, \ldots$ the PDE:
-4. Solve using the PFNN:
-   
-$$
-\begin{cases}
-\Delta u_{n+1}(x) - \lambda u_{n+1}(x) = -\lambda u_n(x) + F(x, u_n(x)), & x \in \Omega, \\
-u_{n+1}(x) = f(x), & x \in \partial \Omega.
-\end{cases}
-$$
-
-At each iteration we solve the PFNN for the Helmholtz PDE using the approximation for the integral with respect to the Poisson source at step n by:
-
-$$
-\int_{\Omega} \Phi(x, y) \psi_n(y) dy \approx \sum_{r \in \mathcal{R}} \sum_{\theta \in \Theta} \Phi(x,r, \theta) \psi_n(r,\theta)r \Delta r \Delta \theta.
-$$   
-
-Examples in Python can be seen [`here`](Scripts_and_Examples_Py/PFNN_Semi-linear_PDE.ipynb) and in MATLAB [`here`](Scripts_and_Examples/PFNN_Semi_linear_PDE.m).
-
-The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py) and MATLAB [`here`](Classes/PotentialFredholmNeuralNetwork_Helmholtz.m).
-
-### Application to the inverse source problem
-
-We will be considering the inverse source problem for the PDE, consisting of a known boundary function $f : \partial \Omega \to {\mathbb R}$, as well as a coarse set of data points $\{u(x_i)\}_ {i=1,\cdots, n}, x_i \in \Omega $, and looking to approximate the unknown source function $\psi: \Omega \to {\mathbb R}$, using for a suitable model, represented by $\psi_ {\theta}: \Omega \to {\mathbb R}$ with parameters $\theta$ (e.g., a shallow neural network), such that the data $\{\tilde{u}(x_i) \}$ and function $f(x)$ satisfy the Poisson PDE. Our strategy takes advantage of the structure and convergence properties of the PFNN as follows: select a set of parameters $\theta$ such that when constructing the estimated kernel $\psi_{\theta}(\cdot, \cdot)$ and then feeding this into the PFNN with $M$ hidden layers, the output, $\hat{u}(x;\psi_{\theta})$ (which will also be denoted $\hat{u}(x)$ for brevity), is as ''close'' as possible (in terms of an appropriately chosen loss function) to the given data $\tilde{u}$. The learning problem then reduces to the optimization problem of tuning the parameters $\theta$ appropriately until we reach the optimal set $\theta^* $ and the corresponding source model $\psi_{\theta^*}$. 
-
-The inverse problem is ill-posed. Hence, we require a regularization component. For our approach, where we use a shallow neural network model for the approximation $\psi_{\theta}$), we apply a Tikhonov regularization, encapsulated by the term:
-
-$$
-{R}(\theta) = \| \psi_\theta \|_2^2, = \sum_j (\hat{\psi}_{\theta}(x_j))^2, \,\,\ \text{for } x_j \in \Omega
-$$
-
-where and the complete loss function is given by: 
-
-$$
-L(\theta) = \frac{1}{N} \sum_{i=1}^{N} \Big(\tilde{u}(x_i) - \hat{u}(x_i; {\psi}_\theta) \Big)^2 + \lambda_{reg}{R}(\theta).
-$$
-
-<img width="622" height="245" alt="Screenshot 2025-10-08 at 5 04 35 PM" src="https://github.com/user-attachments/assets/c872ce08-1b5c-4ecc-a8ef-b7f9d78a9594" />
 
 *Figure 5: Algorithm to solve inverse source problem for the Poisson PDE using the PFNN.*
 
