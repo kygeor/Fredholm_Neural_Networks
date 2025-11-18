@@ -248,9 +248,7 @@ $$
 
 where $x^*:= (1, \phi) \in \partial \Omega$ is the unique point on the boundary corresponding to $x:= (r, \phi) \in \Omega$.  
 
-We apply this approach to the Laplace equation [`here`](Scripts_and_Examples_Py/Laplace_PDE_PyTorch_dblquad.ipynb).
-
-The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py).
+We apply this approach to the Laplace equation [`here`](Scripts_and_Examples_Py/Laplace_PDE_PyTorch_dblquad.ipynb) (the custom Fredholm NN class is in this notebook).
 
 
 
