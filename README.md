@@ -177,16 +177,6 @@ This consists of taking as data two functions $f, g : \Omega \to \mathbb{R}$ and
 
 Our strategy uses the structure/convergence of the Fredholm NN: select parameters $\theta$ so that, when constructing the estimated kernel $K_\theta$ and feeding it into the Fredholm NN with M hidden layers, the network output $\hat{f}(x;\hat K_\theta)$ is close to the data $\tilde{f}$ under an appropriate loss.
 
-We use two terms:
-
-$$R_{\theta} = \sum_j w_j^2 $$
-
-$${R}_{{FIE}}(\theta)= \frac{1}{N}\sum_{i=1}^{N}
-\Big(\tilde{f}(x_i) - (\mathcal{T}_{\theta}\tilde{f})(x_i)\Big)^2 $$
-
-with
-
-$$ (\mathcal{T}_{\theta}\tilde{f})(x) := g(x) + \int_{\Omega} \hat{K}_{\theta}(x,y)\,\tilde{f}(y)\,dy.$$
 
 The complete loss is
 
@@ -194,7 +184,7 @@ $$
 L(\theta) = \frac{1}{N}\sum_{i=1}^{N} \Big(f(x_i) - \hat{f}(x_i;\hat{K}_{\theta})\Big)^2 + \lambda_{reg}\,{R}(\theta).
 $$
 
-Here, $\hat{f}(x;\hat{K}_{\theta})$ denotes the output of the Fredholm NN.
+Here, $\hat{f}(x;\hat{K}_{\theta})$ denotes the output of the Fredholm NN and $R(\theta)$ is a Tikhonov regularization term. (Note that in the journal publication additional regularization terms are considered).
 
 
 <img width="613" height="234" alt="Screenshot 2025-10-08 at 2 26 57 PM" src="https://github.com/user-attachments/assets/5bd73f8c-0b5a-4500-bafc-7535dfb46edc" />
