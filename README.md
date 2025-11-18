@@ -193,18 +193,18 @@ Here, $\hat{f}(x;\hat{K}_{\theta})$ denotes the output of the Fredholm NN and $R
 
 The implementation is given for a specific example in MATLAB, using the Levenberg-Marquardt training algorithm [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_inverse.m).
 
-# Fredholm Neural Networks for elliptic PDEs
+# Fredholm Neural Networks for the Laplace PDE
 
-Here we briefly provide the background in Potential Theory and how it is applied in the context of FNNs, resulting in the Potential Frendholm Neural Network (PFNN), used to solve elliptic PDEs.
+Here we briefly provide the background in Potential Theory and how it is applied in the context of FNNs, resulting in the Frendholm Neural Network to solve the PDE.
 
-Consider the two-dimensional linear Poisson equation for $u(x)$:
+Consider the two-dimensional Laplace equation for $u(x)$:
 
-$$\begin{cases}\Delta u(x) = \psi(x), & \text { for } x \in \Omega \\
+$$\begin{cases}\Delta u(x) = 0, & \text { for } x \in \Omega \\
 u(x)= f(x) & \text { for } {x} \in \partial \Omega. \end{cases}$$
 
 Its solution can be written via the double layer boundary integral given by:
 
-$$u(x) =  \int_{\partial \Omega} \beta(y) \frac{\partial \Phi}{\partial n_{y}}(x, y) d \sigma_{y} + \int_{\Omega} \Phi(x,y) \psi(y) d y ,  x \in \Omega,$$
+$$u(x) =  \int_{\partial \Omega} \beta(y) \frac{\partial \Phi}{\partial n_{y}}(x, y) d \sigma_{y} ,  x \in \Omega,$$
 
 where $\Phi(x,y)$ is the fundamental solution of the Laplace equation, $n_y$ is the outward pointing normal vector to $y$, $\sigma_y$ is the surface element at point $y\in \partial \Omega$, and $\frac{\partial \Phi}{\partial n_{y}} = n_y \cdot \nabla_{ y}{\Phi}$. It can be shown that the following limit holds, as we approach the boundary: 
 
@@ -212,15 +212,15 @@ $$\lim _{\substack{x \rightarrow x^{\star} \\ x \in \Omega}}   \int_{\partial \O
 
 Hence, the function $\beta({x}^{\star})$, defined on the boundary, must satisfy the Boundary Integral Equation (BIE):
 
-$$\beta({x}^{\star}) = 2 \Big(f(x^{\star}) - \int_{\Omega} \Phi(x^*,y) \psi(y) dy \Big) - 2 \int_{\partial \Omega} \beta(y) \frac{\partial \Phi}{\partial n_{y}}(x^{\star}, y) d \sigma_{y},  x^{\star} \in \partial \Omega.$$
+$$\beta({x}^{\star}) = 2 f(x^{\star}) - 2 \int_{\partial \Omega} \beta(y) \frac{\partial \Phi}{\partial n_{y}}(x^{\star}, y) d \sigma_{y},  x^{\star} \in \partial \Omega.$$
 
 <img width="548" height="376" alt="Screenshot 2025-10-08 at 4 58 58 PM" src="https://github.com/user-attachments/assets/f9edb609-f257-4c06-b96e-7ee4095c34bd" />
 
-*Figure 4: PFNN construction. The first component is a Fredholm Neural Network and the second encapsulates the representation of the double layer potential, decomposed into a the final hidden layer.*
+*Figure 4: Custom FNN construction. The first component is a Fredholm Neural Network and the second encapsulates the representation of the double layer potential, decomposed into a the final hidden layer.*
 
 
-### Laplace PDE 
-The Poisson PDE 
+###  
+The Laplace PDE 
 
 $$
 \begin{cases}
@@ -248,15 +248,9 @@ $$
 
 where $x^*:= (1, \phi) \in \partial \Omega$ is the unique point on the boundary corresponding to $x:= (r, \phi) \in \Omega$.  
 
-We apply this approach to the Laplace equation [`here`](Scripts_and_Examples_Py/PFNN_Poisson_PDE.ipynb) and in MATLAB [`here`](Scripts_and_Examples/PFNN_Poisson_PDE_sparse_prediction_for_inverse.m).
+We apply this approach to the Laplace equation [`here`](Scripts_and_Examples_Py/Laplace_PDE_PyTorch_dblquad.ipynb).
 
-The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py) and MATLAB [`here`](Classes/PotentialFredholmNeuralNetwork_Poisson.m).
-
-
+The corresponding classes are in Python [`here`](Classes_Py/potential_fredholm_nn_models.py).
 
 
-
-*Figure 5: Algorithm to solve inverse source problem for the Poisson PDE using the PFNN.*
-
-Examples are in MATLAB [`here`](Scripts_and_Examples/Fredholm_Integral_Equation_inverse.m).
 
